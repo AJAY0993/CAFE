@@ -76,7 +76,7 @@ fetch(NOW_PLAYING_URL)
         data['results'].forEach(element => {
             const slide = document.createElement('div')
             slide.classList.add('slide', 'active')
-            slide.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${element.poster_path})`
+            slide.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${element.backdrop_path})`
             slide.innerHTML = `<div class="slide-image">
         <img src="https://image.tmdb.org/t/p/w1280${element.poster_path}" alt="">
     </div>
@@ -95,6 +95,7 @@ fetch(NOW_PLAYING_URL)
 fetch(POPULAR_URL)
     .then(data => data.json())
     .then(data => {
+        cardsContainer.innerHTML = ''
         data['results'].forEach(elm => {
             const card = document.createElement('div')
             card.classList.add('movie-card')
