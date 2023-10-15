@@ -95,6 +95,8 @@ section {
 img {
      display: block;
      max-width: 100%;
+     height: 100%;
+     object-fit: cover;
 }
 
 strong {
@@ -187,6 +189,11 @@ nav .nav-container {
 
 .nav--li {
      margin: 1em;
+}
+
+.nav--li a {
+     text-decoration: none;
+     color: var(--clr-light);
 }
 
 .nav--li a:hover,
@@ -300,6 +307,7 @@ nav .nav-container {
      margin: 1em;
      padding: 1em;
      background: var(--clr-dark);
+     flex-shrink: 0;
 }
 
 .movie-image {
@@ -391,10 +399,14 @@ nav .nav-container {
      flex-direction: column;
 }
 
-.movie-info-additional>* {
+.movie-info-additional>li {
      border-bottom: .05em solid var(--clr-gray);
      margin-bottom: .5em;
+}
+
+.movie-info-additional>*>span {
      color: var(--clr-yellow);
+     margin: 0 8px
 }
 
 .movie-info-production>h3 {
