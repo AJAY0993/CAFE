@@ -175,7 +175,9 @@ function addToFav(id) {
         localStorage.setItem('favs', id)
     }
 }
-
+///////////////////////////////////////////////////////////////////
+// LOCAL STORAGE MAGIC TO STORE MOVIES IN MY LIST CONTAINER
+///////////////////////////////////////////////////////////////////
 myListLink.addEventListener('click', (e) => {
     e.preventDefault()
     main.innerHTML = ''
@@ -195,11 +197,16 @@ myListLink.addEventListener('click', (e) => {
     arr = [... new Set(arr)]
     console.log(arr)
     const listContainer = document.querySelector('.my-list-card-container')
-    arr.forEach(id => {
+    const loader = document.querySelector('.custom-loader')
+    if (arr.length < 1) {
+        main.innerHTML = `<div class = "section--title"> YOU DONT HAVE ANY ITEM IN YOUR LIST</div>`
+    }
+    arr.forEach((id, idx) => {
         const ID_API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`;
         fetch(ID_API_URL)
             .then(data => data.json())
             .then(data => {
+                if (idx == 0) { loader.remove() }
                 const card = document.createElement('div')
                 card.className = 'movie-card'
                 card.innerHTML = `<div class="card--movie-image">
@@ -213,6 +220,7 @@ ${data.release_date}
         </div>
     `
                 card.setAttribute('data-movieID', `${data.id}`)
+
                 card.addEventListener('click', (e) => {
                     const movieInfoContainer = document.querySelector('.movie-info-container')
                     console.log(movieInfoContainer)
