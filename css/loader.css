@@ -20,6 +20,10 @@
     transform: translate(-50% -50%);
 }
 
+.popular-movies .custom-loader {
+    background: var(--clr-dark);
+}
+
 @keyframes cu10 {
     0% {
         -webkit-mask-size: 0 18px, 0 18px, 0 18px, auto

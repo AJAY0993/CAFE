@@ -2,6 +2,7 @@ const links = document.querySelectorAll('li a')
 const slideContainer = document.querySelector('.hero--slider-container')
 const poularMoviesCardsContainer = document.querySelector('.popular-movies .cards-container')
 const topRatedMoviesCardsContainer = document.querySelector('.top-rated-movies .cards-container')
+const myListLink = document.querySelector('#my-list')
 const main = document.querySelector('main')
 const API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c'
 const NOW_PLAYING_URL = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
@@ -79,17 +80,17 @@ ${elm["release_date"]}
         .catch(err => console.log(err))
 }
 
-// function updateSlide(array) {
-//     let count = 0
-//     setInterval(() => {
-//         array.forEach(ele => ele.classList.remove('active'))
-//         array[count].classList.add('active')
-//         count++
-//         if (count == (array.length - 1)) {
-//             count = 0
-//         }
-//     }, 3000)
-// }
+function updateSlide(array) {
+    let count = 0
+    setInterval(() => {
+        array.forEach(ele => ele.classList.remove('active'))
+        array[count].classList.add('active')
+        count++
+        if (count == (array.length - 1)) {
+            count = 0
+        }
+    }, 3000)
+}
 
 function movieInfo(url) {
     fetch(url)
@@ -118,6 +119,7 @@ ${data.overview}
 <ul class="movie-info-genres"> GENRES
 </ul>
 <a href="${data.homepage}" class="movie-info-homepage-link">link to homepage</a>
+<button class = "movie-info-add-to-fav btn" data-movieid = ${data.id}>ADD TO FAV</button>
 </div>
 
 </div>
@@ -144,21 +146,86 @@ MOVIE INFO
                 li.className = 'movie-info-genre-item'
                 li.innerText = genre['name']
                 genreContainer.appendChild(li)
+            })
+            const productionComapaniesContainer = document.querySelector('.movie-info-production')
+            data.production_companies.forEach(company => {
+                const li = document.createElement('li')
+                li.className = 'movie-info-company-item'
+                li.innerText = company['name']
+                productionComapaniesContainer.appendChild(li)
+                li.style.display = 'inline-block'
 
-                const productionComapaniesContainer = document.querySelector('.movie-info-production')
-                data.production_companies.forEach(company => {
-                    console.log(genre)
-                    const li = document.createElement('li')
-                    li.className = 'movie-info-company-item'
-                    li.innerText = company['name']
-                    productionComapaniesContainer.appendChild(li)
-                    li.style.display = 'inline-block'
-                })
+            })
+            const addToFavBtn = document.querySelector('.movie-info-add-to-fav')
+            addToFavBtn.addEventListener('click', (e) => {
+                const movieID = e.target.getAttribute('data-movieid')
+                addToFav(movieID)
             })
         })
 
 
 }
+function addToFav(id) {
+    if (localStorage.length > 0) {
+        let favs = localStorage.getItem('favs')
+        favs += ' ' + id
+        localStorage.setItem('favs', favs)
+    }
+    else {
+        localStorage.setItem('favs', id)
+    }
+}
 
+myListLink.addEventListener('click', (e) => {
+    e.preventDefault()
+    main.innerHTML = ''
+
+    main.innerHTML = `<section class="my-list">
+    <div class="section--title">
+        MY LIST
+    </div>
+    <div class="container cards-container my-list-card-container">
+        
+            <div class="custom-loader"></div>
+            
+      
+    </div>
+</section>`
+    let arr = localStorage.getItem('favs').split(' ')
+    arr = [... new Set(arr)]
+    console.log(arr)
+    const listContainer = document.querySelector('.my-list-card-container')
+    arr.forEach(id => {
+        const ID_API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`;
+        fetch(ID_API_URL)
+            .then(data => data.json())
+            .then(data => {
+                const card = document.createElement('div')
+                card.className = 'movie-card'
+                card.innerHTML = `<div class="card--movie-image">
+<img src="https://image.tmdb.org/t/p/w1280${data.poster_path}">
+        </div>
+        <div class="card--movie-name">
+${data.title}
+        </div>
+        <div class="card--movie-time">
+${data.release_date}
+        </div>
+    `
+                card.setAttribute('data-movieID', `${data.id}`)
+                card.addEventListener('click', (e) => {
+                    const movieInfoContainer = document.querySelector('.movie-info-container')
+                    console.log(movieInfoContainer)
+                    const movieID = card.getAttribute('data-movieid')
+                    console.warn(e.target)
+                    console.warn(movieID)
+                    const ID_API_URL = `https://api.themoviedb.org/3/movie/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
+                    movieInfo(ID_API_URL)
+                })
+                listContainer.appendChild(card)
+            })
+
+    })
+})
 createCards(NOW_PLAYING_URL, poularMoviesCardsContainer)
 createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
