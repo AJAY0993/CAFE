@@ -300,7 +300,7 @@ nav .nav-container {
 }
 
 .movie-card {
-     max-width: auto;
+     max-width: 100%;
      width: 350px;
      /* aspect-ratio: 9/16; */
      border: 1px solid black;
