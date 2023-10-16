@@ -263,7 +263,7 @@ movieBtn.addEventListener('click', (e) => {
     main.style.display = 'block'
     e.target.classList.add('active')
     showBtn.classList.remove('active')
-    loadNowPlaying(NOW_TV_SERIES_PLAYING_URL)
+    loadNowPlaying(NOW_PLAYING_URL)
     createCards(POPULAR_URL, poularMoviesCardsContainer)
     createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
 })
