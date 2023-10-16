@@ -11,6 +11,9 @@
     mask-composite: exclude;
     -webkit-mask-repeat: no-repeat;
     animation: cu10 1.5s infinite;
+    align-self: center;
+    justify-self: center;
+    margin: 0 auto;
 }
 
 .hero--slider-container .custom-loader {

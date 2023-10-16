@@ -201,7 +201,7 @@ nav .nav-container {
      color: var(--clr-light);
 }
 
-.nav--li a.active {
+.nav--li>*.active {
      color: var(--clr-yellow);
      font-weight: var(--fw-bold);
 }
