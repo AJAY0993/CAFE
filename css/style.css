@@ -122,7 +122,7 @@ strong {
      text-transform: uppercase;
      letter-spacing: 2px;
      font-weight: var(--fw-bold);
-     transition: transform 200ms ease-in-out;
+     transition: transform 50ms ease-in-out;
 }
 
 a {
@@ -201,13 +201,14 @@ nav .nav-container {
      color: var(--clr-light);
 }
 
+.nav--li a.active {
+     color: var(--clr-yellow);
+     font-weight: var(--fw-bold);
+}
+
 .nav--li a:hover,
 .nav--li a:active {
      color: var(--clr-yellow);
-}
-
-.nav--li a:visited {
-     font-weight: var(--fw-bold);
 }
 
 /******************************************
@@ -298,7 +299,6 @@ nav .nav-container {
      display: flex;
      /* flex-wrap: wrap; */
      align-items: center;
-     justify-content: center;
      overflow-x: auto;
 }
 
@@ -398,6 +398,7 @@ nav .nav-container {
 .movie-info-add-to-fav {
      display: block;
      margin: 1rem 0;
+     transition: 100ms;
 }
 
 .movie-info-homepage-link:hover {

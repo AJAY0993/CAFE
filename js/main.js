@@ -4,24 +4,31 @@ const poularMoviesCardsContainer = document.querySelector('.popular-movies .card
 const topRatedMoviesCardsContainer = document.querySelector('.top-rated-movies .cards-container')
 const myListLink = document.querySelector('#my-list')
 const main = document.querySelector('main')
+const movieBtn = document.querySelector('#movie-btn')
+const showBtn = document.querySelector('#show-btn')
+const header = document.querySelector('header')
+// const currentStae =  ;
 const API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c'
+const NOW_TV_SERIES_PLAYING_URL = 'https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const NOW_PLAYING_URL = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const POPULAR_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1'
+const POPULAR_SHOW_URL = 'https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const TOP_RATED_URL = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
+const TOP_RATED_SHOW_URL = 'https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const SEARCH_API_URL = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query='
 
-
-fetch(NOW_PLAYING_URL)
-    .then(data => data.json())
-    .then(data => {
-        console.log(data)
-        try { slideContainer.innerHTML = '' }
-        catch (err) { console.log(err) }
-        data['results'].forEach(element => {
-            const slide = document.createElement('div')
-            slide.classList.add('slide', 'active')
-            slide.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${element.backdrop_path})`
-            slide.innerHTML = `<div class="slide-image">
+function loadNowPlaying(url) {
+    fetch(url)
+        .then(data => data.json())
+        .then(data => {
+            console.log(data)
+            try { slideContainer.innerHTML = '' }
+            catch (err) { console.log(err) }
+            data['results'].forEach(element => {
+                const slide = document.createElement('div')
+                slide.classList.add('slide', 'active')
+                slide.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${element.backdrop_path})`
+                slide.innerHTML = `<div class="slide-image">
         <img src="https://image.tmdb.org/t/p/w1280${element.poster_path}" alt="">
     </div>
     <div class="slide-rating">
@@ -29,17 +36,18 @@ fetch(NOW_PLAYING_URL)
 
         </i> <span class ="vote-average">${element['vote_average']}/10</span>
     </div>`
-            try {
-                slideContainer.appendChild(slide)
-            }
-            catch (err) {
-                console.log(err)
-            }
-        });
-        const slides = document.querySelectorAll('.slide')
-        updateSlide(slides)
-    })
-    .catch(err => console.log(err))
+                try {
+                    slideContainer.appendChild(slide)
+                }
+                catch (err) {
+                    console.log(err)
+                }
+            });
+            const slides = document.querySelectorAll('.slide')
+            updateSlide(slides)
+        })
+        .catch(err => console.log(err))
+}
 
 function createCards(url, parent) {
     fetch(url)
@@ -97,9 +105,14 @@ function movieInfo(url) {
         .then(data => data.json())
         .then(data => {
             console.log(data)
-            main.innerHTML = ''
-            main.className = 'movie-info-container container'
-            main.innerHTML = `<div class="movie-info">
+            main.style.display = 'none'
+            //if (document.querySelector('.myListTemporaryContainer')) { document.querySelector('.myListTemporaryContainer').innerHTML = '' }
+            clearDom()
+            const movieInfoTemporaryContainer = document.createElement('div')
+            //.className = 'movieInfoTemporaryContainer'
+            header.insertAdjacentElement("afterend", movieInfoTemporaryContainer)
+            movieInfoTemporaryContainer.className = 'movieInfoTemporaryContainer movie-info-container container'
+            movieInfoTemporaryContainer.innerHTML = `<div class="movie-info">
 <div class="movie-info-image">
 <img src="https://image.tmdb.org/t/p/w1280${data.poster_path}">
 </div>
@@ -180,9 +193,13 @@ function addToFav(id) {
 ///////////////////////////////////////////////////////////////////
 myListLink.addEventListener('click', (e) => {
     e.preventDefault()
-    main.innerHTML = ''
-
-    main.innerHTML = `<section class="my-list">
+    main.style.display = 'none'
+    clearDom()
+    const div = document.createElement('div')
+    div.className = 'myListTemporaryContainer'
+    const header = document.querySelector('header')
+    header.insertAdjacentElement("afterend", div)
+    div.innerHTML = `<section class="my-list">
     <div class="section--title">
         MY LIST
     </div>
@@ -199,7 +216,7 @@ myListLink.addEventListener('click', (e) => {
     const listContainer = document.querySelector('.my-list-card-container')
     const loader = document.querySelector('.custom-loader')
     if (arr.length < 1) {
-        main.innerHTML = `<div class = "section--title"> YOU DONT HAVE ANY ITEM IN YOUR LIST</div>`
+        div.innerHTML = `<div class = "section--title"> YOU DONT HAVE ANY ITEM IN YOUR LIST</div>`
     }
     arr.forEach((id, idx) => {
         const ID_API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`;
@@ -235,5 +252,36 @@ ${data.release_date}
 
     })
 })
-createCards(NOW_PLAYING_URL, poularMoviesCardsContainer)
+
+loadNowPlaying(NOW_PLAYING_URL)
+createCards(POPULAR_URL, poularMoviesCardsContainer)
 createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
+
+movieBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    clearDom()
+    main.style.display = 'block'
+    e.target.classList.add('active')
+    showBtn.classList.remove('active')
+    loadNowPlaying(NOW_TV_SERIES_PLAYING_URL)
+    createCards(POPULAR_URL, poularMoviesCardsContainer)
+    createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
+})
+
+showBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    clearDom()
+    main.style.display = 'block'
+    e.target.classList.add('active')
+    movieBtn.classList.remove('active')
+    loadNowPlaying(NOW_TV_SERIES_PLAYING_URL)
+    createCards(NOW_TV_SERIES_PLAYING_URL, poularMoviesCardsContainer)
+    createCards(TOP_RATED_SHOW_URL, topRatedMoviesCardsContainer)
+})
+
+function clearDom() {
+    const movieInfo = document.querySelector('.movieInfoTemporaryContainer')
+    const list = document.querySelector('.myListTemporaryContainer')
+    if (list) { list.remove() }
+    if (movieInfo) { movieInfo.remove() }
+}
