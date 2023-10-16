@@ -151,6 +151,7 @@ MOVIE INFO
 </div>
 </div>`
             const isMovie = data.name ? false : true
+
             if (isMovie == true) {
                 const ul = document.querySelector('.movie-info-additional')
                 ul.innerHTML = `<li class="movie-info-additional-item"><span>BUDGET:</span>${data.budget}</li>
@@ -185,24 +186,48 @@ MOVIE INFO
             })
 
             const addToFavBtn = document.querySelector('.movie-info-add-to-fav')
+            console.log("its a", isMovie)
             addToFavBtn.addEventListener('click', (e) => {
-                const movieID = e.target.getAttribute('data-movieid')
-                addToFav(movieID)
+                if (isMovie == false) {
+                    const movieID = e.target.getAttribute('data-movieid')
+                    addToFav(movieID, false)
+                    console.log('its  not a movie')
+                }
+                else {
+                    const movieID = e.target.getAttribute('data-movieid')
+                    addToFav(movieID, true)
+                    console.log('its  a  movie')
+                }
             })
         })
 
 
 }
-function addToFav(id) {
-    if (localStorage.length > 0) {
-        let favs = localStorage.getItem('favs')
-        favs += ' ' + id
-        localStorage.setItem('favs', favs)
+function addToFav(id, isMovie) {
+
+    if (isMovie == true) {
+        if (localStorage.getItem('favs') != null) {
+            let favs = localStorage.getItem('favs')
+            favs += ' ' + id
+            localStorage.setItem('favs', favs)
+        }
+        else {
+            localStorage.setItem('favs', id)
+        }
     }
     else {
-        localStorage.setItem('favs', id)
+        if (localStorage.getItem('favsShow') != null) {
+            let favsShow = localStorage.getItem('favsShow')
+            favsShow += ' ' + id
+            localStorage.setItem('favsShow', favsShow)
+        }
+        else {
+            localStorage.setItem('favsShow', id)
+        }
     }
 }
+
+
 ///////////////////////////////////////////////////////////////////
 // LOCAL STORAGE MAGIC TO STORE MOVIES IN MY LIST CONTAINER
 ///////////////////////////////////////////////////////////////////
@@ -225,12 +250,18 @@ myListLink.addEventListener('click', (e) => {
       
     </div>
 </section>`
-    let arr = localStorage.getItem('favs').split(' ')
+    let arr = []
+    let showArr = []
+    if (localStorage.getItem('favs') != null) { arr = localStorage.getItem('favs').split(' ') }
+    if (localStorage.getItem('favsShow') != null) { showArr = localStorage.getItem('favsShow').split(' ') }
+    // let showArr = localStorage.getItem('favsShow').split(' ') || ['']
     arr = [... new Set(arr)]
+    showArr = [... new Set(showArr)]
+    console.log(showArr)
     console.log(arr)
     const listContainer = document.querySelector('.my-list-card-container')
     const loader = document.querySelector('.custom-loader')
-    if (arr.length < 1) {
+    if (arr.length < 1 && showArr.length < 1) {
         div.innerHTML = `<div class = "section--title"> YOU DONT HAVE ANY ITEM IN YOUR LIST</div>`
     }
     arr.forEach((id, idx) => {
@@ -259,7 +290,43 @@ ${data.release_date}
                     const movieID = card.getAttribute('data-movieid')
                     console.warn(e.target)
                     console.warn(movieID)
+                    const isMovie = data.title ? true : false
                     const ID_API_URL = `https://api.themoviedb.org/3/movie/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
+                    //const SHOW_ID_API_URL = `https://api.themoviedb.org/3/tv/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
+
+                    movieInfo(ID_API_URL)
+                })
+                listContainer.appendChild(card)
+            })
+
+    })
+    showArr.forEach((id, idx) => {
+        const ID_API_URL = `https://api.themoviedb.org/3/tv/${id}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`;
+        fetch(ID_API_URL)
+            .then(data => data.json())
+            .then(data => {
+                // if (idx == 0) { loader.remove() }
+                const card = document.createElement('div')
+                card.className = 'movie-card'
+                card.innerHTML = `<div class="card--movie-image">
+<img src="https://image.tmdb.org/t/p/w1280${data.poster_path}">
+        </div>
+        <div class="card--movie-name">
+${data.name}
+        </div>
+        <div class="card--movie-time">
+${data.first_air_date}
+        </div>
+    `
+                card.setAttribute('data-movieID', `${data.id}`)
+
+                card.addEventListener('click', (e) => {
+                    const movieInfoContainer = document.querySelector('.movie-info-container')
+                    console.log(movieInfoContainer)
+                    const movieID = card.getAttribute('data-movieid')
+                    console.warn(e.target)
+                    console.warn(movieID)
+                    const ID_API_URL = `https://api.themoviedb.org/3/tv/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
                     movieInfo(ID_API_URL)
                 })
                 listContainer.appendChild(card)
