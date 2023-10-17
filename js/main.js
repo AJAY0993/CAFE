@@ -26,22 +26,31 @@ function loadNowPlaying(url) {
             catch (err) { console.log(err) }
             data['results'].forEach(element => {
                 const slide = document.createElement('div')
-                slide.classList.add('slide', 'active')
+                slide.classList.add('slide')
+                slideContainer.appendChild(slide)
+                const isMovie = element.name ? false : true
+                const id = element.id
+                const ID_API_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+                const SHOW_ID_API_URL = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`
+                slide.addEventListener('click', () => {
+                    isMovie ? movieInfo(ID_API_URL) : movieInfo(SHOW_ID_API_URL)
+                })
                 slide.style.backgroundImage = `url(https://image.tmdb.org/t/p/w1280${element.backdrop_path})`
-                slide.innerHTML = `<div class="slide-image">
-        <img src="https://image.tmdb.org/t/p/w1280${element.poster_path}" alt="">
+                slide.innerHTML = `<div class="main--text-content">
+                <div>
+                <h2 class = "slider-movie-name">${element.name || element.title}</h2>
+						<ul class="main--ul">
+							<li>${element.release_date || element.first_air_date}</li>
+							<li>${element.original_language}</li>
+                            <li><i class="fa-solid fa-star"></i>${element.vote_average}/10</li>
+							
+						</ul>
+						<div class="main--overview">
+							${element.overview}
+						</div>
     </div>
-    <div class="slide-rating">
-        <i class="fa-solid fa-star">
+					</div>`
 
-        </i> <span class ="vote-average">${element['vote_average']}/10</span>
-    </div>`
-                try {
-                    slideContainer.appendChild(slide)
-                }
-                catch (err) {
-                    console.log(err)
-                }
             });
             const slides = document.querySelectorAll('.slide')
             updateSlide(slides)
@@ -94,8 +103,8 @@ ${elm["release_date"] || elm.first_air_date}
 function updateSlide(array) {
     let count = 0
     setInterval(() => {
-        array.forEach(ele => ele.classList.remove('active'))
-        array[count].classList.add('active')
+        array.forEach(ele => ele.style.display = 'none')
+        array[count].style.display = 'block'
         count++
         if (count == (array.length - 1)) {
             count = 0
