@@ -309,12 +309,17 @@ nav .nav-container {
 .movie-card {
      max-width: 100%;
      width: 350px;
-     /* aspect-ratio: 9/16; */
+     aspect-ratio: 9/16;
      border: 1px solid black;
      margin: 1em;
      padding: 1em;
      background: var(--clr-dark);
      flex-shrink: 0;
+     transition: all .4s ease-in;
+}
+
+.movie-card:hover {
+     transform: scale(1.05);
 }
 
 .movie-image {
@@ -325,6 +330,10 @@ nav .nav-container {
 .card--movie-name {
      font-size: var(--fs-h3);
      font-weight: var(--fw-bold);
+     -webkit-line-clamp: 2;
+     -webkit-box-orient: vertical;
+     display: -webkit-box;
+     overflow: hidden;
 }
 
 /* TOP RATED MOVIES CARD */
