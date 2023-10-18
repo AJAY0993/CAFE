@@ -1,12 +1,25 @@
+
 const links = document.querySelectorAll('li a')
 const slideContainer = document.querySelector('.hero--slider-container')
 const poularMoviesCardsContainer = document.querySelector('.popular-movies .cards-container')
 const topRatedMoviesCardsContainer = document.querySelector('.top-rated-movies .cards-container')
+const searchResultCardsContainer = document.querySelector('.search-result-card-container')
+const paginationContainer = document.querySelector('.pagination-container')
 const main = document.querySelector('main')
+const input = document.querySelector('.search-bar')
+const form = document.querySelector('form')
+const page = document.querySelector('.current-page')
+const searchBtn = document.querySelector('#search-btn')
 const myListLink = document.querySelector('#my-list')
 const movieBtn = document.querySelector('#movie-btn')
 const showBtn = document.querySelector('#show-btn')
 const header = document.querySelector('header')
+const searchSection = document.querySelector('.search-result')
+const paginationSection = document.querySelector('.pagination')
+const searchSectionTitle = document.querySelector('.search-result .section--title')
+const prevBtn = document.querySelector('.prev')
+const nextBtn = document.querySelector('.next')
+const headerHeight = header.offsetHeight + 'px'
 // const currentStae =  ;
 const API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c'
 const NOW_TV_SERIES_PLAYING_URL = 'https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
@@ -15,8 +28,13 @@ const POPULAR_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popular
 const POPULAR_SHOW_URL = 'https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const TOP_RATED_URL = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const TOP_RATED_SHOW_URL = 'https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
-const SEARCH_API_URL = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query='
+const SEARCH_API_URL = 'https://api.themoviedb.org/3/search/multi?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query='
 
+main.style.marginTop = headerHeight
+searchSection.style.marginTop = headerHeight
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTION TO LOAD HERO SECTION
+////////////////////////////////////////////////////////////////////////////////
 function loadNowPlaying(url) {
     fetch(url)
         .then(data => data.json())
@@ -57,7 +75,9 @@ function loadNowPlaying(url) {
         })
         .catch(err => console.log(err))
 }
-
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTION TO CREATE CARDS
+////////////////////////////////////////////////////////////////////////////////
 function createCards(url, parent) {
     fetch(url)
         .then(data => data.json())
@@ -85,7 +105,7 @@ function createCards(url, parent) {
                     card.getAttribute('ismovie') == 'true' ? movieInfo(ID_API_URL) : movieInfo(SHOW_ID_API_URL)
                 })
                 card.innerHTML = `<div class="card--movie-image">
-            <img src="https://image.tmdb.org/t/p/w1280${elm.poster_path}" alt="">
+            <img src="https://image.tmdb.org/t/p/w1280${elm.poster_path || elm.backdrop_path}" alt="">
             </div>
             <div class="card--movie-name">
 ${elm.title ? elm.title : elm.name}
@@ -96,10 +116,19 @@ ${elm["release_date"] || elm.first_air_date}
                 try { parent.appendChild(card) }
                 catch (err) { console.log(err) }
             })
+            const showMoreButton = document.createElement('button')
+            showMoreButton.className = 'showMoreBtn'
+            showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
+            parent.appendChild(showMoreButton)
+            showMoreButton.addEventListener('click', () => {
+                pagination(url)
+            })
         })
         .catch(err => console.log(err))
 }
-
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTION TO UPDATE SLIDER OF HERO SECTION
+////////////////////////////////////////////////////////////////////////////////
 function updateSlide(array) {
     let count = 0
     setInterval(() => {
@@ -111,8 +140,11 @@ function updateSlide(array) {
         }
     }, 3000)
 }
-
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTION TO CREATE MOVIE/SHOW INFO 
+////////////////////////////////////////////////////////////////////////////////
 function movieInfo(url) {
+    url = url + '&append_to_response=videos'
     fetch(url)
         .then(data => data.json())
         .then(data => {
@@ -144,6 +176,7 @@ ${data.overview}
 <ul class="movie-info-genres"> GENRES
 </ul>
 <a href="${data.homepage}" class="movie-info-homepage-link">link to homepage</a>
+<a href="https://www.youtube.com/watch?v=${data.videos.results[0].key}" class="movie-info-play-trailer-link">Play trailer</a>
 <button class = "movie-info-add-to-fav btn" data-movieid = ${data.id}>ADD TO FAV</button>
 </div>
 
@@ -212,6 +245,9 @@ MOVIE INFO
 
 
 }
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTION TO ADD MOVIES/SHOW IN FAV LIST
+////////////////////////////////////////////////////////////////////////////////
 function addToFav(id, isMovie) {
 
     if (isMovie == true) {
@@ -235,8 +271,6 @@ function addToFav(id, isMovie) {
         }
     }
 }
-
-
 ///////////////////////////////////////////////////////////////////
 // LOCAL STORAGE MAGIC TO STORE MOVIES IN MY LIST CONTAINER
 ///////////////////////////////////////////////////////////////////
@@ -343,17 +377,27 @@ ${data.first_air_date}
 
     })
 })
-
+//////////////////////////////////////////////////////////////////////////////
+//LOADING HOMEPAGE
+///////////////////////////////////////////////////////////////////////////////
 loadNowPlaying(NOW_PLAYING_URL)
 createCards(POPULAR_URL, poularMoviesCardsContainer)
 createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
 
+///////////////////////////////////////////////////////////////////////////////
+// MAKING NAV LINKS YELLOW AND BOLD ON CLICK
+////////////////////////////////////////////////////////////////////////////////
 links.forEach(link => link.addEventListener('click', (e) => {
+    e.preventDefault()
     links.forEach(link => link.classList.remove('active'))
     e.target.classList.add('active')
 })
 
 )
+
+///////////////////////////////////////////////////////////////////////////////
+// MAKING MOVIE PAGE ON CLICK 
+////////////////////////////////////////////////////////////////////////////////
 movieBtn.addEventListener('click', (e) => {
     e.preventDefault()
     clearDom()
@@ -363,6 +407,9 @@ movieBtn.addEventListener('click', (e) => {
     createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
 })
 
+///////////////////////////////////////////////////////////////////////////////
+// MAKING SHOW PAGE ON CLICK
+////////////////////////////////////////////////////////////////////////////////
 showBtn.addEventListener('click', (e) => {
     e.preventDefault()
     clearDom()
@@ -371,10 +418,65 @@ showBtn.addEventListener('click', (e) => {
     createCards(NOW_TV_SERIES_PLAYING_URL, poularMoviesCardsContainer)
     createCards(TOP_RATED_SHOW_URL, topRatedMoviesCardsContainer)
 })
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    clearDom()
+    main.style.display = 'none'
+    searchSection.style.display = 'block'
+    createCards(`https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${API_KEY}`, searchResultCardsContainer)
+    form.addEventListener('submit', (submitEvent) => {
+        submitEvent.preventDefault()
+        const url = SEARCH_API_URL + input.value
+        createCards(url, searchResultCardsContainer)
+        searchSectionTitle.innerText = 'RESULT'
+    })
 
+})
 function clearDom() {
     const movieInfo = document.querySelector('.movieInfoTemporaryContainer')
     const list = document.querySelector('.myListTemporaryContainer')
+    searchSection.style.display = 'none'
+    paginationSection.style.display = 'none'
     if (list) { list.remove() }
     if (movieInfo) { movieInfo.remove() }
+
 }
+///////////////////////////////////////////////////////////////////////////////
+// PAGINATION
+////////////////////////////////////////////////////////////////////////////////
+function pagination(url) {
+    paginationContainer.setAttribute('data-url', `${url.replace('&page=1', '')}`)
+    url = url.replace('page=1', 'page=2')
+    clearDom()
+    page.innerText = 2
+    main.style.display = 'none'
+    paginationSection.style.display = 'block'
+    createCards(url, paginationContainer)
+    paginationContainer.setAttribute('data-page', 2)
+}
+
+nextBtn.addEventListener('click', () => {
+    let currentPage = paginationContainer.getAttribute('data-page')
+    let reqPage = ++currentPage
+    page.innerText = reqPage
+    let url = paginationContainer.getAttribute('data-url')
+    url = url + `&page=${reqPage}`
+    createCards(url, paginationContainer)
+    paginationContainer.setAttribute('data-page', reqPage)
+    // alert(url)
+})
+prevBtn.addEventListener('click', () => {
+    let currentPage = paginationContainer.getAttribute('data-page')
+    if (currentPage > 1) {
+        let reqPage = --currentPage
+        page.innerText = reqPage
+        let url = paginationContainer.getAttribute('data-url')
+        url = url + `&page=${reqPage}`
+        createCards(url, paginationContainer)
+        paginationContainer.setAttribute('data-page', reqPage)
+        // alert(url)
+    }
+    else {
+        alert("its first page you can browsw in negative")
+    }
+})

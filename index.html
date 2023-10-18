@@ -21,6 +21,7 @@
 					CAFE
 				</div>
 				<ul class="nav-ul">
+					<li class="nav--li"><a href="" id="search-btn">Search</a></li>
 					<li class="nav--li"><a href="" id="movie-btn">Movies</a></li>
 					<li class="nav--li"><a href="" id="show-btn">TV Shows</a></li>
 					<li class="nav--li"><a href="" id="my-list">My List</a></li>
@@ -28,6 +29,37 @@
 			</div>
 		</nav>
 	</header>
+	<section class="search-result">
+		<form>
+			<div>
+				<input type="text" name="" id="search-bar" class="search-bar" placeholder="Shows Movies and more">
+				<i class="fa-solid fa-search"></i>
+			</div>
+		</form>
+		<div class="section--title">
+			TRENDING
+		</div>
+		<div class="container cards-container search-result-card-container">
+
+			<div class="custom-loader"></div>
+
+
+		</div>
+	</section>
+	<section class="pagination">
+		<div class="section--title">
+			TRENDING
+		</div>
+		<div class="container cards-container pagination-container">
+
+			<div class="custom-loader"></div>
+
+
+		</div>
+		<button class="prev">prev</button>
+		<span class="current-page"></span>
+		<button class="next">next</button>
+	</section>
 	<main>
 		<section class="hero">
 			<div class="container hero-container">
@@ -70,8 +102,9 @@
 				<div class="custom-loader"></div>
 			</div>
 		</section>
+
 	</main>
-	<script src="js/main.js"></script>
+	<script src="js/main.js" defer></script>
 </body>
 
 </html>
