@@ -269,6 +269,10 @@ form i {
      display: none;
 }
 
+.pagination .section--title {
+     color: var(--clr-yellow);
+}
+
 /******************************************
 /* HERO
 /*******************************************/
@@ -417,6 +421,29 @@ form i {
 /* TOP RATED MOVIES CARD */
 .top-rated-movies .movie-card {
      background-color: var(--clr-yellow);
+}
+
+/* VIEW MORE BUTTON */
+.showMoreBtn {
+     padding: .5em 3rem;
+     background: var(--clr-dark);
+     color: var(--clr-yellow);
+     font-size: var(--fs-h2);
+     font-weight: var(--fw-bold);
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+}
+
+.prev,
+.next {
+     background: transparent;
+     border: 1px solid var(--clr-yellow);
+     padding: .5em 1em;
+     border-radius: 1em;
+     margin: 1em 2em;
+     cursor: pointer;
+     color: var(--clr-yellow);
 }
 
 /******************************************

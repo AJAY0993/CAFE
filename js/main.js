@@ -42,6 +42,7 @@ function loadNowPlaying(url) {
             console.log(data)
             try { slideContainer.innerHTML = '' }
             catch (err) { console.log(err) }
+            document.querySelector('.hero .custom-loader').style.display = 'block'
             data['results'].forEach(element => {
                 const slide = document.createElement('div')
                 slide.classList.add('slide')
@@ -121,7 +122,7 @@ ${elm["release_date"] || elm.first_air_date}
             showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
             parent.appendChild(showMoreButton)
             showMoreButton.addEventListener('click', () => {
-                pagination(url)
+                pagination(url, parent)
             })
         })
         .catch(err => console.log(err))
@@ -131,13 +132,14 @@ ${elm["release_date"] || elm.first_air_date}
 ////////////////////////////////////////////////////////////////////////////////
 function updateSlide(array) {
     let count = 0
+
     setInterval(() => {
-        array.forEach(ele => ele.style.display = 'none')
         array[count].style.display = 'block'
         count++
         if (count == (array.length - 1)) {
             count = 0
         }
+        document.querySelector('.hero .custom-loader').style.display = 'none'
     }, 3000)
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -444,7 +446,8 @@ function clearDom() {
 ///////////////////////////////////////////////////////////////////////////////
 // PAGINATION
 ////////////////////////////////////////////////////////////////////////////////
-function pagination(url) {
+function pagination(url, name) {
+    document.querySelector('.pagination .section--title').innerText = name.previousElementSibling.innerText
     paginationContainer.setAttribute('data-url', `${url.replace('&page=1', '')}`)
     url = url.replace('page=1', 'page=2')
     clearDom()
