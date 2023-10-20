@@ -389,11 +389,15 @@ createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
 ///////////////////////////////////////////////////////////////////////////////
 // MAKING NAV LINKS YELLOW AND BOLD ON CLICK
 ////////////////////////////////////////////////////////////////////////////////
-links.forEach(link => link.addEventListener('click', (e) => {
-    e.preventDefault()
-    links.forEach(link => link.classList.remove('active'))
-    e.target.classList.add('active')
-})
+links.forEach(link => {
+    if (link.id !== 'genreLink') {
+        link.addEventListener('click', (e) => {
+            e.preventDefault()
+            links.forEach(link => link.classList.remove('active'))
+            e.target.classList.add('active')
+        })
+    }
+}
 
 )
 
@@ -437,8 +441,11 @@ searchBtn.addEventListener('click', (e) => {
 function clearDom() {
     const movieInfo = document.querySelector('.movieInfoTemporaryContainer')
     const list = document.querySelector('.myListTemporaryContainer')
-    searchSection.style.display = 'none'
-    paginationSection.style.display = 'none'
+    try {
+        searchSection.style.display = 'none'
+        paginationSection.style.display = 'none'
+    }
+    catch (err) { console.log(err) }
     if (list) { list.remove() }
     if (movieInfo) { movieInfo.remove() }
 

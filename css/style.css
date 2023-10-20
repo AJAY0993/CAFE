@@ -550,9 +550,11 @@ form i {
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
-.genre-cards-container {
+.genre-cards-container,
+.genre-movies {
      display: flex;
      flex-wrap: wrap;
+     justify-content: space-between;
 }
 
 .genre-card {
@@ -571,4 +573,8 @@ form i {
 
 .genre-card:hover {
      scale: 1.1;
+}
+
+.genre {
+     display: none;
 }

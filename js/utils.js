@@ -180,3 +180,41 @@ ${elm["release_date"] || elm.first_air_date}
         })
         .catch(err => console.log(err))
 }
+
+export function clearDom() {
+    const movieInfo = document.querySelector('.movieInfoTemporaryContainer')
+    const list = document.querySelector('.myListTemporaryContainer')
+    try {
+        searchSection.style.display = 'none'
+        paginationSection.style.display = 'none'
+    }
+    catch (err) { console.log(err) }
+    if (list) { list.remove() }
+    if (movieInfo) { movieInfo.remove() }
+
+}
+
+export function addToFav(id, isMovie) {
+
+    if (isMovie == true) {
+        if (localStorage.getItem('favs') != null) {
+            let favs = localStorage.getItem('favs')
+            favs += ' ' + id
+            localStorage.setItem('favs', favs)
+        }
+        else {
+            localStorage.setItem('favs', id)
+        }
+    }
+    else {
+        if (localStorage.getItem('favsShow') != null) {
+            let favsShow = localStorage.getItem('favsShow')
+            favsShow += ' ' + id
+            localStorage.setItem('favsShow', favsShow)
+        }
+        else {
+            localStorage.setItem('favsShow', id)
+        }
+    }
+}
+
