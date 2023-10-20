@@ -134,6 +134,7 @@ function updateSlide(array) {
     let count = 0
 
     setInterval(() => {
+        array.forEach(slide => slide.style.display = 'none')
         array[count].style.display = 'block'
         count++
         if (count == (array.length - 1)) {
