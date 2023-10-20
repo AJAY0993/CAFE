@@ -547,116 +547,28 @@ form i {
      margin: 1em 0;
 }
 
-/*
-input,
-.search--btn {
-     background: transparent;
-     color: white;
-     border: none;
-     border-bottom: 2px solid white;
-}
-
-.search--btn {
-     border: 0;
-     cursor: pointer;
-}
-
-input:focus {
-     outline: 0;
-}
-
-
-ul {
-     display: flex;
-     list-style: none;
-     padding: 0;
-     gap: 1rem;
-}
-
-ul li a {
-     color: #fff;
-     text-decoration: none;
-}
-
-main {
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: center;
-     background: var(--clr-secondary);
-}
-
-.movie--card {
-     background: #c3c2c2;
-     width: 300px;
-     margin: 1rem;
-     position: relative;
-     border-radius: 16px;
-     overflow: hidden;
-     cursor: pointer;
-     padding-bottom: 1em;
-     position: relative;
-}
-
-.movie--card h2,
-.movie--card span {
-     padding-left: 1rem;
-     transition: all .6s ease-in;
-}
-
-.movie--rating {
-     font-size: 1.2rem;
-     font-weight: 600;
-}
-
-.movie--overview {
-     background: #fff;
-     position: absolute;
-     transition: all .6s ease-in;
-     padding: 1em;
-}
-
-.movie--card:hover .movie--overview {
-     bottom: 0;
-}
-
-.movie--card:hover h2,
-.movie--card:hover span {
-     opacity: 0;
-}
-
-img {
-     max-width: 100%;
-}
-
-.green {
-     color: green;
-}
-
-.red {
-     color: red;
-}
-
-.yellow {
-     color: yellow;
-}
-
-.orange {
-     color: orange;
-}
-
-.movie--add {
-     position: absolute;
-     right: 1rem;
-     top: 1rem;
-     padding: .5em 1em;
-     background-color: #1E2027;
-     color: #fff;
-     border-radius: 1rem;
-     display: block;
-}
-
-footer {}*/
-
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
+.genre-cards-container {
+     display: flex;
+     flex-wrap: wrap;
+}
+
+.genre-card {
+     width: 300px;
+     height: 300px;
+     max-width: 100%;
+     max-width: 100%;
+     margin: 1em;
+     border: 1px solid var(--clr-yellow);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     transition: all .3s ease-in;
+}
+
+.genre-card:hover {
+     scale: 1.1;
+}
