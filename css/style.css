@@ -458,6 +458,7 @@ form i {
      justify-content: space-evenly;
      width: 100%;
      padding: 1rem;
+     position: relative;
 }
 
 .movie-info-content>* {
@@ -577,4 +578,19 @@ form i {
 
 .genre {
      display: none;
+}
+
+.toasts {
+     position: fixed;
+     right: 1rem;
+     bottom: 1rem;
+}
+
+
+.toast {
+     background: #fff;
+     color: #FF6969;
+     padding: .5rem 1rem;
+     margin: 1em;
+     border-radius: 8px;
 }

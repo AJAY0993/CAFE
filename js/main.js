@@ -27,7 +27,7 @@ const NOW_PLAYING_URL = 'https://api.themoviedb.org/3/movie/now_playing?language
 const POPULAR_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1'
 const POPULAR_SHOW_URL = 'https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const TOP_RATED_URL = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
-const TOP_RATED_SHOW_URL = 'https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
+const TOP_RATED_SHOW_URL = `https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=1&api_key=${API_KEY}`
 const SEARCH_API_URL = 'https://api.themoviedb.org/3/search/multi?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query='
 
 main.style.marginTop = headerHeight
@@ -85,6 +85,7 @@ function createCards(url, parent) {
         .then(data => {
             try {
                 parent.innerHTML = ''
+                page.innerText = data.page + ' out of ' + data.total_pages
             }
             catch (err) {
                 console.log(err)
@@ -194,7 +195,10 @@ MOVIE INFO
 <h3>PRODUCTION COMAPANIES</h3>
 </ul>
 </div>
-</div>`
+</div>
+<div class="toasts">
+
+		</div>`
             const isMovie = data.name ? false : true
 
             if (isMovie == true) {
@@ -233,6 +237,7 @@ MOVIE INFO
             const addToFavBtn = document.querySelector('.movie-info-add-to-fav')
             console.log("its a", isMovie)
             addToFavBtn.addEventListener('click', (e) => {
+                getNotif()
                 if (isMovie == false) {
                     const movieID = e.target.getAttribute('data-movieid')
                     addToFav(movieID, false)
@@ -244,6 +249,16 @@ MOVIE INFO
                     console.log('its  a  movie')
                 }
             })
+            const toasts = document.querySelector('.toasts')
+            function getNotif() {
+                let randomIndex = Math.floor(Math.random() * length)
+                const notif = document.createElement('div')
+                notif.innerText = "Added in fav list"
+                notif.classList.add('toast')
+                toasts.appendChild(notif)
+
+                setTimeout(() => { notif.remove() }, 1000)
+            }
         })
 
 
@@ -491,3 +506,4 @@ prevBtn.addEventListener('click', () => {
         alert("its first page you can browsw in negative")
     }
 })
+
