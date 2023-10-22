@@ -4,7 +4,9 @@ const genreNameCardsContainer = document.querySelector('.genre-cards-container')
 const genreCardsContainer = document.querySelector('.genre-movies')
 const genres = document.querySelector('.genres')
 const genre = document.querySelector('.genre')
+const genreTitle = document.querySelector('.genre .section--title')
 genres.style.marginTop = document.querySelector('header').offsetHeight + 'px'
+genre.style.marginTop = document.querySelector('header').offsetHeight + 'px'
 const GENRE_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
 const MAIN_URL = `https://api.themoviedb.org/3/discover/movie?with_genres=`
 
@@ -24,6 +26,7 @@ async function createGenreCards(url) {
     const cards = document.querySelectorAll('.genre-card')
     cards.forEach(card => {
         card.addEventListener('click', (e) => {
+            genreTitle.innerHTML = e.target.innerHTML
             genres.style.display = 'none'
             genre.style.display = 'block'
             const id = card.getAttribute('id')

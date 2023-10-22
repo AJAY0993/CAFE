@@ -120,19 +120,36 @@ strong {
      display: inline-block;
      padding: .5em 2.5em;
      margin: 0 50px;
-     background: var(--clr-accent);
-     color: var(--clr-dark);
      text-decoration: none;
      cursor: pointer;
      font-size: .8rem;
      text-transform: uppercase;
      letter-spacing: 2px;
      font-weight: var(--fw-bold);
+     transition: .3s ease-out;
      transition: transform 50ms ease-in-out;
+     background: var(--clr-dark);
 }
 
 a {
      display: inline-block;
+     text-decoration: none;
+     cursor: pointer;
+     transition: .3s ease-out;
+}
+
+.navigation-link {
+     border: 1px solid var(--clr-yellow);
+     padding: 0.25em 1.25em;
+     border-radius: 50px;
+     background: var(--clr-dark);
+     color: var(--clr-yellow);
+}
+
+.navigation-link:hover {
+     border: 0;
+     background: var(--clr-yellow);
+     color: var(--clr-dark);
 }
 
 .fa-star {
@@ -419,11 +436,9 @@ form i {
 }
 
 /* VIEW MORE BUTTON */
-.showMoreBtn {
+.show-more {
      padding: .5em 3rem;
-     background: var(--clr-dark);
-     color: var(--clr-yellow);
-     font-size: var(--fs-h2);
+     font-size: var(--fs-h3);
      font-weight: var(--fw-bold);
      cursor: pointer;
      display: flex;
@@ -544,7 +559,7 @@ form i {
 }
 
 /******************************************
-/* ADDITIONAL STYLES
+/* GENRE FILE STYLES
 /*******************************************/
 .genre-cards-container,
 .genre-movies {

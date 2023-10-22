@@ -70,6 +70,9 @@ function loadNowPlaying(url) {
 					</div>`
 
             });
+            ///////////////////////////////////////////////////////////////////////////////
+            // FUNCTION TO UPDATE SLIDER OF HERO SECTION
+            ////////////////////////////////////////////////////////////////////////////////
             const slides = document.querySelectorAll('.slide');
             const slider = document.querySelector('.slider');
 
@@ -145,33 +148,21 @@ ${elm["release_date"] || elm.first_air_date}
                     try { parent.appendChild(card) }
                     catch (err) { console.log(err) }
                 })
-                const showMoreButton = document.createElement('button')
-                showMoreButton.className = 'showMoreBtn'
-                showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
-                parent.appendChild(showMoreButton)
-                showMoreButton.addEventListener('click', () => {
-                    pagination(url, parent)
-                })
+
+                if (data.page == 1) {
+                    const showMoreButton = document.createElement('button')
+                    showMoreButton.className = 'navigation-link show-more'
+                    showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
+                    parent.appendChild(showMoreButton)
+                    showMoreButton.addEventListener('click', () => {
+                        pagination(url, parent)
+                    })
+                }
             }
         })
         .catch(err => console.log(err))
 }
-///////////////////////////////////////////////////////////////////////////////
-// FUNCTION TO UPDATE SLIDER OF HERO SECTION
-////////////////////////////////////////////////////////////////////////////////
-function updateSlide(array) {
-    let count = 0
 
-    setInterval(() => {
-        array.forEach(slide => slide.style.display = 'none')
-        array[count].style.display = 'block'
-        count++
-        if (count == (array.length - 1)) {
-            count = 0
-        }
-        document.querySelector('.hero .custom-loader').style.display = 'none'
-    }, 3000)
-}
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTION TO CREATE MOVIE/SHOW INFO 
 ////////////////////////////////////////////////////////////////////////////////
@@ -269,12 +260,10 @@ MOVIE INFO
                 if (isMovie == false) {
                     const movieID = e.target.getAttribute('data-movieid')
                     addToFav(movieID, false)
-                    console.log('its  not a movie')
                 }
                 else {
                     const movieID = e.target.getAttribute('data-movieid')
                     addToFav(movieID, true)
-                    console.log('its  a  movie')
                 }
             })
             const toasts = document.querySelector('.toasts')
@@ -531,7 +520,7 @@ prevBtn.addEventListener('click', () => {
         // alert(url)
     }
     else {
-        alert("its first page you can browsw in negative")
+        alert("its first page you can not browse in negative")
     }
 })
 

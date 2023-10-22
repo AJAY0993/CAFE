@@ -138,27 +138,30 @@ export function createCards(url, parent) {
         .then(data => {
             try {
                 parent.innerHTML = ''
+                page.innerText = data.page + ' out of ' + data.total_pages
             }
             catch (err) {
                 console.log(err)
             }
-            data['results'].forEach(elm => {
-                const card = document.createElement('div')
-                card.classList.add('movie-card')
-                const isMovie = elm.title ? true : false
-                card.setAttribute('data-movieID', `${elm.id}`)
-                card.setAttribute('ismovie', isMovie)
-                card.addEventListener('click', (e) => {
-                    const movieInfoContainer = document.querySelector('.movie-info-container')
-                    console.log(movieInfoContainer)
-                    const movieID = card.getAttribute('data-movieid')
-                    console.warn(e.target)
-                    console.warn(movieID)
-                    const ID_API_URL = `https://api.themoviedb.org/3/movie/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
-                    const SHOW_ID_API_URL = `https://api.themoviedb.org/3/tv/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
-                    card.getAttribute('ismovie') == 'true' ? movieInfo(ID_API_URL) : movieInfo(SHOW_ID_API_URL)
-                })
-                card.innerHTML = `<div class="card--movie-image">
+            if (data.results.length < 1) parent.innerHTML = "<h3>COULD'NT FOUND</h3>"
+            else {
+                data['results'].forEach(elm => {
+                    const card = document.createElement('div')
+                    card.classList.add('movie-card')
+                    const isMovie = elm.title ? true : false
+                    card.setAttribute('data-movieID', `${elm.id}`)
+                    card.setAttribute('ismovie', isMovie)
+                    card.addEventListener('click', (e) => {
+                        const movieInfoContainer = document.querySelector('.movie-info-container')
+                        console.log(movieInfoContainer)
+                        const movieID = card.getAttribute('data-movieid')
+                        console.warn(e.target)
+                        console.warn(movieID)
+                        const ID_API_URL = `https://api.themoviedb.org/3/movie/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
+                        const SHOW_ID_API_URL = `https://api.themoviedb.org/3/tv/${movieID}?api_key=3fd2be6f0c70a2a598f084ddfb75487c`
+                        card.getAttribute('ismovie') == 'true' ? movieInfo(ID_API_URL) : movieInfo(SHOW_ID_API_URL)
+                    })
+                    card.innerHTML = `<div class="card--movie-image">
             <img src="https://image.tmdb.org/t/p/w1280${elm.poster_path || elm.backdrop_path}" alt="">
             </div>
             <div class="card--movie-name">
@@ -167,20 +170,23 @@ ${elm.title ? elm.title : elm.name}
             <div class="card--movie-time">
 ${elm["release_date"] || elm.first_air_date}
             </div>`
-                try { parent.appendChild(card) }
-                catch (err) { console.log(err) }
-            })
-            const showMoreButton = document.createElement('button')
-            showMoreButton.className = 'showMoreBtn'
-            showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
-            parent.appendChild(showMoreButton)
-            showMoreButton.addEventListener('click', () => {
-                pagination(url, parent)
-            })
+                    try { parent.appendChild(card) }
+                    catch (err) { console.log(err) }
+                })
+
+                if (data.page == 1) {
+                    const showMoreButton = document.createElement('button')
+                    showMoreButton.className = 'navigation-link show-more'
+                    showMoreButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
+                    parent.appendChild(showMoreButton)
+                    showMoreButton.addEventListener('click', () => {
+                        pagination(url, parent)
+                    })
+                }
+            }
         })
         .catch(err => console.log(err))
 }
-
 export function clearDom() {
     const movieInfo = document.querySelector('.movieInfoTemporaryContainer')
     const list = document.querySelector('.myListTemporaryContainer')
