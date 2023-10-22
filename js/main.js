@@ -1,6 +1,6 @@
 
 const links = document.querySelectorAll('li a')
-const slideContainer = document.querySelector('.hero--slider-container')
+const slideContainer = document.querySelector('.hero--slider-container .slider')
 const poularMoviesCardsContainer = document.querySelector('.popular-movies .cards-container')
 const topRatedMoviesCardsContainer = document.querySelector('.top-rated-movies .cards-container')
 const searchResultCardsContainer = document.querySelector('.search-result-card-container')
@@ -42,7 +42,6 @@ function loadNowPlaying(url) {
             console.log(data)
             try { slideContainer.innerHTML = '' }
             catch (err) { console.log(err) }
-            document.querySelector('.hero .custom-loader').style.display = 'block'
             data['results'].forEach(element => {
                 const slide = document.createElement('div')
                 slide.classList.add('slide')
@@ -71,8 +70,34 @@ function loadNowPlaying(url) {
 					</div>`
 
             });
-            const slides = document.querySelectorAll('.slide')
-            updateSlide(slides)
+            const slides = document.querySelectorAll('.slide');
+            const slider = document.querySelector('.slider');
+
+
+            let currentSlide = 0;
+
+            function goToSlide(slideIndex) {
+                if (slideIndex < 0) {
+                    slideIndex = slides.length - 1;
+                } else if (slideIndex >= slides.length) {
+                    slideIndex = 0;
+                }
+
+                slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                currentSlide = slideIndex;
+            }
+
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+
+            setInterval(nextSlide, 3000);
+            goToSlide(currentSlide);
+
         })
         .catch(err => console.log(err))
 }
