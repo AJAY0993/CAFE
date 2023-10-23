@@ -204,6 +204,7 @@ nav .nav-container {
      display: flex;
      justify-content: space-between;
      align-items: center;
+     position: relative;
 }
 
 .nav-logo {
@@ -234,6 +235,14 @@ nav .nav-container {
 .nav--li a:hover,
 .nav--li a:active {
      color: var(--clr-yellow);
+}
+
+.toggler-container {
+     display: none;
+}
+
+.toggler-container input[type="checkbox"] {
+     opacity: 0;
 }
 
 /******************************************
@@ -607,4 +616,27 @@ form i {
      padding: .5rem 1rem;
      margin: 1em;
      border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+     .toggler-container {
+          display: block;
+     }
+
+
+
+     label i {
+          font-size: 2rem;
+     }
+
+     .nav-ul {
+          flex-direction: column;
+          align-items: center;
+          position: absolute;
+          right: 0%;
+          top: 50px;
+          padding: 1em;
+          background: var(--clr-yellow);
+     }
+
 }
