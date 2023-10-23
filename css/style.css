@@ -580,6 +580,10 @@ form i {
      justify-content: center;
      cursor: pointer;
      transition: all .3s ease-in;
+     background: rgb(112, 111, 111);
+     background-position: center;
+     background-size: cover;
+     background-blend-mode: multiply;
 }
 
 .genre-card:hover {
