@@ -20,7 +20,7 @@ const searchSectionTitle = document.querySelector('.search-result .section--titl
 const prevBtn = document.querySelector('.prev')
 const nextBtn = document.querySelector('.next')
 const headerHeight = header.offsetHeight + 'px'
-// const currentStae =  ;
+let timerID;
 const API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c'
 const NOW_TV_SERIES_PLAYING_URL = 'https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
 const NOW_PLAYING_URL = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=3fd2be6f0c70a2a598f084ddfb75487c'
@@ -78,7 +78,11 @@ function loadNowPlaying(url) {
 
 
             let currentSlide = 0;
-
+            try {
+                clearInterval(timerID)
+            } catch (error) {
+                console.warn(error)
+            }
             function goToSlide(slideIndex) {
                 if (slideIndex < 0) {
                     slideIndex = slides.length - 1;
@@ -98,7 +102,7 @@ function loadNowPlaying(url) {
                 goToSlide(currentSlide - 1);
             }
 
-            setInterval(nextSlide, 3000);
+            timerID = setInterval(nextSlide, 3000);
             goToSlide(currentSlide);
 
         })
