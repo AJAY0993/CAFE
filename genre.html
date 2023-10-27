@@ -14,21 +14,27 @@
 </head>
 
 <body>
+
     <header>
         <nav>
             <div class="container nav-container">
                 <div class="nav-logo">
                     CAFE
                 </div>
-                <ul class="nav-ul">
-                    <!-- <li class="nav--li"><a href="./index.html#" id="search-btn">Search</a></li> -->
-                    <li class="nav--li"><a href="./index.html" id="movie-btn">Home</a></li>
-                    <!-- <li class="nav--li"><a href="./index.html" id="show-btn">TV Shows</a></li> -->
-                    <!-- <li class="nav--li"><a href="./index.html" id="my-list">Genre</a></li> -->
-                    <!-- <li class="nav--li"><a href="./index.html" id="my-list">My List</a></li> -->
+                <div class="toggler-container">
+                    <input type="checkbox" name="" id="toggler">
+                    <label for="toggler">
+                        <i class="fa-solid fa-bars"></i>
+                    </label>
+                </div>
+                <ul class="nav-ul topnav" id="MyTopNav">
+                    <li class="nav--li"><a href="index.html" id="search-btn">Search</a></li>
+                    <li class="nav--li"><a href="" id="movie-btn">Home</a></li>
+                    <li class="nav--li"><a href="./genre.html" id="genreLink">Genre</a></li>
                 </ul>
             </div>
         </nav>
+
     </header>
     <main>
         <section class="genres">

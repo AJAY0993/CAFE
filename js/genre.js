@@ -5,8 +5,11 @@ const genreCardsContainer = document.querySelector('.genre-movies')
 const genres = document.querySelector('.genres')
 const genre = document.querySelector('.genre')
 const genreTitle = document.querySelector('.genre .section--title')
-genres.style.marginTop = document.querySelector('header').offsetHeight + 'px'
-genre.style.marginTop = document.querySelector('header').offsetHeight + 'px'
+genres.style.marginTop = document.querySelector('header').offsetHeight + 'px';
+genre.style.marginTop = document.querySelector('header').offsetHeight + 'px';
+const nav = document.querySelector('.nav-ul')
+const toggler = document.querySelector('#toggler')
+
 const GENRE_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
 const MAIN_URL = `https://api.themoviedb.org/3/discover/movie?with_genres=`
 const images = {
@@ -61,3 +64,8 @@ async function createGenreCards(url) {
 }
 
 createGenreCards(GENRE_URL)
+
+toggler.addEventListener('change', () => {
+    if (toggler.checked) nav.style.display = 'block'
+    else { nav.style.display = 'none' }
+})
