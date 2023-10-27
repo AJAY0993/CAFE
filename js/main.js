@@ -13,7 +13,7 @@ const searchBtn = document.querySelector('#search-btn')
 const myListLink = document.querySelector('#my-list')
 const movieBtn = document.querySelector('#movie-btn')
 const showBtn = document.querySelector('#show-btn')
-const toggler = document.querySelector('.toggler-container input')
+const toggler = document.querySelector('#toggler')
 const nav = document.querySelector('.nav-ul')
 const header = document.querySelector('header')
 const searchSection = document.querySelector('.search-result')
@@ -34,14 +34,7 @@ const SEARCH_API_URL = 'https://api.themoviedb.org/3/search/multi?api_key=3fd2be
 
 main.style.marginTop = headerHeight
 searchSection.style.marginTop = headerHeight
-///////////////////////////////////////////////////////////////////////////////
-// FUNCTION FOR RESPONSIVE NAVBAR
-////////////////////////////////////////////////////////////////////////////////
-// JavaScript function to toggle the visibility of the menu items
-toggler.addEventListener('change', () => {
-    if (toggler.checked) nav.style.display = 'block'
-    else { nav.style.display = 'none' }
-})
+
 ///////////////////////////////////////////////////////////////////////////////
 // FUNCTION TO LOAD HERO SECTION
 ////////////////////////////////////////////////////////////////////////////////
@@ -440,6 +433,8 @@ links.forEach(link => {
     if (link.id !== 'genreLink') {
         link.addEventListener('click', (e) => {
             e.preventDefault()
+            toggler.checked = false
+            nav.style.display = 'none'
             links.forEach(link => link.classList.remove('active'))
             e.target.classList.add('active')
         })
@@ -538,3 +533,11 @@ prevBtn.addEventListener('click', () => {
     }
 })
 
+///////////////////////////////////////////////////////////////////////////////
+// FUNCTION FOR RESPONSIVE NAVBAR
+////////////////////////////////////////////////////////////////////////////////
+// JavaScript function to toggle the visibility of the menu items
+toggler.addEventListener('change', () => {
+    if (toggler.checked) nav.style.display = 'block'
+    else { nav.style.display = 'none' }
+})

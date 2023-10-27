@@ -245,6 +245,33 @@ nav .nav-container {
      opacity: 0;
 }
 
+@media (max-width: 768px) {
+     .toggler-container {
+          display: block;
+     }
+
+
+
+     label i {
+          font-size: 2rem;
+     }
+
+     .nav-ul {
+          flex-direction: column;
+          align-items: center;
+          position: absolute;
+          right: 0%;
+          top: 50px;
+          padding: 1em;
+          background: var(--clr-yellow);
+          display: none;
+     }
+
+     .nav--li a.active {
+          color: var(--clr-dark);
+     }
+}
+
 /******************************************
 /* SEARCH 
 /*******************************************/
@@ -616,27 +643,4 @@ form i {
      padding: .5rem 1rem;
      margin: 1em;
      border-radius: 8px;
-}
-
-@media (max-width: 768px) {
-     .toggler-container {
-          display: block;
-     }
-
-
-
-     label i {
-          font-size: 2rem;
-     }
-
-     .nav-ul {
-          flex-direction: column;
-          align-items: center;
-          position: absolute;
-          right: 0%;
-          top: 50px;
-          padding: 1em;
-          background: var(--clr-yellow);
-     }
-
 }
