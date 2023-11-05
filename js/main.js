@@ -434,7 +434,7 @@ links.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault()
             toggler.checked = false
-            nav.style.display = 'none'
+            // nav.style.display = 'none'
             links.forEach(link => link.classList.remove('active'))
             e.target.classList.add('active')
         })
