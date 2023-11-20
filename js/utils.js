@@ -223,3 +223,16 @@ export function addToFav(id, isMovie) {
         }
     }
 }
+
+export function pagination(url, name) {
+    document.querySelector('.pagination .section--title').innerText = name.previousElementSibling.innerText
+    paginationContainer.setAttribute('data-url', `${url.replace('&page=1', '')}`)
+    url = url.replace('page=1', 'page=2')
+    clearDom()
+    page.innerText = 2
+    main.style.display = 'none'
+    paginationSection.style.display = 'block'
+    createCards(url, paginationContainer)
+    paginationContainer.setAttribute('data-page', 2)
+}
+

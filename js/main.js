@@ -430,11 +430,11 @@ createCards(TOP_RATED_URL, topRatedMoviesCardsContainer)
 // MAKING NAV LINKS YELLOW AND BOLD ON CLICK
 ////////////////////////////////////////////////////////////////////////////////
 links.forEach(link => {
+
     if (link.id !== 'genreLink') {
         link.addEventListener('click', (e) => {
             e.preventDefault()
             toggler.checked = false
-            // nav.style.display = 'none'
             links.forEach(link => link.classList.remove('active'))
             e.target.classList.add('active')
         })
@@ -538,6 +538,15 @@ prevBtn.addEventListener('click', () => {
 ////////////////////////////////////////////////////////////////////////////////
 // JavaScript function to toggle the visibility of the menu items
 toggler.addEventListener('change', () => {
-    if (toggler.checked) nav.style.display = 'block'
-    else { nav.style.display = 'none' }
+    if (toggler.checked) {
+        nav.style.display = 'block'
+        document.querySelector('label i').classList.add('fa-x')
+        document.querySelector('label i').classList.remove('fa-bars')
+    }
+    else {
+        nav.style.display = 'none'
+        document.querySelector('label i').classList.remove('fa-x')
+        document.querySelector('label i').classList.add('fa-bars')
+    }
+
 })
