@@ -233,6 +233,6 @@ export function pagination(url, name) {
     main.style.display = 'none'
     paginationSection.style.display = 'block'
     createCards(url, paginationContainer)
-    paginationContainer.setAttribute('data-page', 2)
+    paginationContainer.setAttribute('data-page', 1)
 }
 
