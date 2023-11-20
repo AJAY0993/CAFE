@@ -3,6 +3,7 @@ import { API_KEY, createCards, movieInfo, clearDom, addToFav } from "./utils.js"
 const genreNameCardsContainer = document.querySelector('.genre-cards-container')
 const genreCardsContainer = document.querySelector('.genre-movies')
 const genres = document.querySelector('.genres')
+const main = document.querySelector('main')
 const genre = document.querySelector('.genre')
 const genreTitle = document.querySelector('.genre .section--title')
 genres.style.marginTop = document.querySelector('header').offsetHeight + 'px';
@@ -55,6 +56,12 @@ async function createGenreCards(url) {
     const cards = document.querySelectorAll('.genre-card')
     cards.forEach(card => {
         card.addEventListener('click', (e) => {
+            try {
+                paginationSection.style.display = 'none'
+            }
+            catch (err) {
+                console.log(err)
+            }
             genreTitle.innerHTML = e.target.innerHTML
             genres.style.display = 'none'
             genre.style.display = 'block'
